@@ -11,4 +11,7 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': 'warn',
   },
+  externals: {
+    "@emotion/react": "commonjs2 @emotion/react"
+  },
 }
