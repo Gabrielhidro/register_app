@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 
-export const SidebarContainer = styled.div`
+interface SidebarProps {
+  isOpen: boolean;
+}
+
+export const SidebarContainer = styled.div<SidebarProps>`
+  width: ${({ isOpen }) => (isOpen ? '250px' : '82px')};
   display: flex;
   flex-direction: column;
-  width: 300px;
   height: auto;
   min-height: 100vh;
+  transition: all 0.3s ease-in-out;
   
   background-color: ${props => props.theme.backgroundColor};
   color: ${props => props.theme.onBackgroundColor};
@@ -55,9 +60,17 @@ export const SidebarItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 8px;
+  gap: 12px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  outline: none;
+  color: ${props => props.theme.onBackgroundColor};
+
+  span {
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
 
   &:hover {
     color: ${props => props.theme.primaryColor};
@@ -73,16 +86,20 @@ export const IconContainer = styled.div`
   width: 40px;
 `
 
-export const SidebarFooter = styled.div`
+export const SidebarFooter = styled.div<SidebarProps>`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
+  
+  flex-wrap: nowrap;
+  overflow: hidden;
 
-  margin: 20px;
   color: ${props => props.theme.onBackgroundColor};
   background-color: #d7daf37d;
   border-radius: 8px;
-  padding: 12px 8px;
+
+  margin: ${({ isOpen }) => (isOpen ? '20px' : '10px')};
+  padding: ${({ isOpen }) => (isOpen ? '12px' : '4px')};
 `
 
 export const ToggleSidebarButton = styled.button`
@@ -90,14 +107,17 @@ export const ToggleSidebarButton = styled.button`
   align-items: center;
   justify-content: center;
   border: none;
+  position: absolute;
+  top: 20px;
+  right: -12px;
+  
+  width: 24px;
+  height: 23px;
+  
   border-radius: 99999px;
-  width: 32px;
-  height: 32px;
   background-color: ${props => props.theme.primaryColor};
   color: ${props => props.theme.onPrimaryColor};
   cursor: pointer;
+  
   transition: all 0.3s ease-in-out;
-  position: absolute;
-  top: 16px;
-  right: -16px;
 `
