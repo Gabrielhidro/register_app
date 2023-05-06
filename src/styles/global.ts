@@ -8,8 +8,13 @@ export const GlobalStyle = createGlobalStyle `
   }
 
   body {
-    background: ${props => props.theme.background};
-    color: ${props => props.theme.text};
-    font-family: sans-serif;
+    background: ${props => props.theme.backgroundColor};
+    color: ${props => props.theme.onBackgroundColor};
+  }
+
+  body, input, button, textarea {
+    font-family: 'Montserrat' , sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
   }
 `
