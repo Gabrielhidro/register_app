@@ -5,7 +5,8 @@ interface SidebarProps {
 }
 
 export const SidebarContainer = styled.div<SidebarProps>`
-  width: ${({ isOpen }) => (isOpen ? '250px' : '82px')};
+  min-width: ${({ isOpen }) => (isOpen ? '300px' : '82px')};
+  width: ${({ isOpen }) => (isOpen ? '300px' : '82px')};
   display: flex;
   flex-direction: column;
   height: auto;
