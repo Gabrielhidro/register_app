@@ -1,9 +1,13 @@
-import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Button, FormControl, MenuItem } from "@mui/material";
 import { ImageContainer, InputContainer, ProductContainer, SubTitle, Title, TextError, SaveButton, SectionTitle, StyledTextField, StyledInputLabel, StyledSelect } from "./styled";
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import ImagePreview from "../../components/ImagePreview";
 import { useDataContext } from "../../context/DataContext";
+import { useState } from "react";
+import LoadingOverlay from "../../components/LoadingOverlay";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export interface productDataInterface {
   nome: string
@@ -25,6 +29,7 @@ const formInitialState = {
 
 export default function Product() {
   const {handleSetProductList} = useDataContext()
+  const [loading, setLoading] = useState(false)
 
   const formValidationSchema = yup.object().shape({
     nome: yup
@@ -48,12 +53,22 @@ export default function Product() {
       .trim()
       .required('Campo obrigatório'),
     arquivo: yup.mixed().required('Selecione uma imagem'),
-    unidade_tipo: yup.string().required(),
+    unidade_tipo: yup.string().oneOf(['qtd', 'cm', 'kg']).required('Obrigatório'),
     unidade_valor: yup.string().required('Campo obrigatório'),
   })
 
+  const handleSetFormInitialValues = () => {
+    formState.setValues(formInitialState)
+  }
+
   const onSubmitForm = (formValues: productDataInterface) => {
-    handleSetProductList(formValues)
+    setLoading(true)
+    setTimeout(() => {
+      handleSetProductList(formValues)
+      setLoading(false)
+      handleSetFormInitialValues()
+      toast.success("Produto cadastrado com sucesso!")
+    }, 1000);
   }
 
   const formState = useFormik({
@@ -84,6 +99,7 @@ export default function Product() {
 
   return (
     <ProductContainer>
+      <ToastContainer />
       <Title>Cadastrar Produtos</Title>
       <SubTitle>Aqui você pode cadastrar novos produtos!</SubTitle>
       <SectionTitle>Dados do produto</SectionTitle>
@@ -129,11 +145,13 @@ export default function Product() {
               onChange={handleChange}
               style={{ width: '90px' }}
               defaultValue={1}
+              error={!!errors.unidade_tipo}
             >
-              <MenuItem selected value="qtd">Qtd</MenuItem>
+              <MenuItem value="qtd">Qtd</MenuItem>
               <MenuItem value="cm">Cm</MenuItem>
               <MenuItem value="kg">Kg</MenuItem>
             </StyledSelect>
+            {!!errors.unidade_tipo && <TextError>{errors.unidade_tipo}</TextError>}
           </FormControl>
 
           <StyledTextField
@@ -167,6 +185,7 @@ export default function Product() {
         Cadastrar
       </SaveButton>
 
+      {loading && <LoadingOverlay />}
     </ProductContainer>
   )
 }

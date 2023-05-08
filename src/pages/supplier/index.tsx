@@ -3,7 +3,12 @@ import { useFormik } from 'formik'
 import { cnpj } from 'cpf-cnpj-validator'
 import { SupplierContainer, Title, SubTitle, InputContainer, SaveButton, SectionTitle, StyledTextField } from "./styled";
 import InputMask from 'react-input-mask'
-import { FocusEvent } from "react";
+import { FocusEvent, useState } from "react";
+import { useDataContext } from '../../context/DataContext';
+import LoadingOverlay from '../../components/LoadingOverlay';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export interface supplierDataInterface {
   nome: string
@@ -11,7 +16,6 @@ export interface supplierDataInterface {
   endereco: string
   cidade: string,
   estado: string
-  telefone: string
   cep: string
   produtos: any
 }
@@ -22,12 +26,13 @@ const formInitialState = {
   endereco: '',
   cidade: '',
   estado: '',
-  telefone: '',
   cep: '',
   produtos: [],
 }
 
 export default function Supplier() {
+  const {handleSetSupplierList} = useDataContext()
+  const [loading, setLoading] = useState(false)
 
   const formValidationSchema = yup.object().shape({
     nome: yup
@@ -49,8 +54,18 @@ export default function Supplier() {
     estado: yup.string().trim().required('Campo obrigatório'),
   })
 
+  const handleSetFormInitialValues = () => {
+    formState.setValues(formInitialState)
+  }
+
   const onSubmitForm = (formValues: supplierDataInterface) => {
-    console.log(formValues);
+    setLoading(true)
+    setTimeout(() => {
+      handleSetSupplierList(formValues)
+      setLoading(false)
+      handleSetFormInitialValues()
+      toast.success("Fornecedor cadastrado com sucesso!")
+    }, 1000);
   }
 
   const formState = useFormik({
@@ -103,6 +118,7 @@ export default function Supplier() {
 
   return (
     <SupplierContainer>
+      <ToastContainer />
       <Title>Cadastrar fornecedor</Title>
       <SubTitle>Aqui você pode cadastrar novos fornecedores!</SubTitle>
       <SectionTitle>Dados pessoais</SectionTitle>
@@ -199,6 +215,8 @@ export default function Supplier() {
       <SaveButton type="submit" onClick={prepareToSubmit}>
         Cadastrar
       </SaveButton>
+
+      {loading && <LoadingOverlay />}
     </SupplierContainer>
   )
 }

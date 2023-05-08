@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
-export const HomeContainer = styled.div`
+export const SupplierProfContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -22,10 +22,6 @@ export const SubTitle = styled.span`
   color: ${props => props.theme.grayTextColor};
 `
 
-export const SectionTitle = styled.span`
-  font-size: 14px;
-  font-weight: 600;
-  margin-top: 12px;
-  margin-bottom: 4px;
-  color: ${props => props.theme.primaryColor};
+export const SupplierContent = styled.div`
+  display: flex;
 `
