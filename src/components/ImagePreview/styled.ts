@@ -17,8 +17,8 @@ export const ImagePreviewContent = styled.div`
   width: 260px;
   height: 260px;
 
-  border: 1px dashed #ccc;
-  background-color: #eee;
+  border: 1px dashed ${props => props.theme.grayTextColor};
+  background-color: ${props => props.theme.backgroundColor};
   border-radius: 4px;
 
   img {

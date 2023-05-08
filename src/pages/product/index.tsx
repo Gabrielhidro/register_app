@@ -1,8 +1,18 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { ImageContainer, InputContainer, ProductContainer, SubTitle, Title, TextError, SaveButton } from "./styled";
+import { Button, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { ImageContainer, InputContainer, ProductContainer, SubTitle, Title, TextError, SaveButton, SectionTitle, StyledTextField, StyledInputLabel, StyledSelect } from "./styled";
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import ImagePreview from "../../components/ImagePreview";
+import { useDataContext } from "../../context/DataContext";
+
+export interface productDataInterface {
+  nome: string
+  descricao: string
+  marca: string
+  unidade_tipo: string,
+  unidade_valor: string
+  arquivo: any
+}
 
 const formInitialState = {
   nome: '',
@@ -14,6 +24,7 @@ const formInitialState = {
 }
 
 export default function Product() {
+  const {handleSetProductList} = useDataContext()
 
   const formValidationSchema = yup.object().shape({
     nome: yup
@@ -37,12 +48,12 @@ export default function Product() {
       .trim()
       .required('Campo obrigatório'),
     arquivo: yup.mixed().required('Selecione uma imagem'),
-    unidade_tipo: yup.number().required(),
-    unidade_valor: yup.string().required('Campo obrigatório').oneOf(['Qtd', 'Cm', 'Kg']),
+    unidade_tipo: yup.string().required(),
+    unidade_valor: yup.string().required('Campo obrigatório'),
   })
 
-  const onSubmitForm = (formValues: any) => {
-    console.log(formValues);
+  const onSubmitForm = (formValues: productDataInterface) => {
+    handleSetProductList(formValues)
   }
 
   const formState = useFormik({
@@ -57,27 +68,26 @@ export default function Product() {
   const prepareToSubmit = (event: any) => {
     event.preventDefault()
     validateForm()
+    
     if (isValid) {
       handleSubmit()
     }
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = event.target.files;
+    const fileList = event.target.files
     if (fileList && fileList.length > 0) {
       const file = fileList[0];
       getFieldHelpers('arquivo').setValue(file)
     }
   };
 
-  console.log('error', errors);
-  console.log('values', values);
-
   return (
     <ProductContainer>
       <Title>Cadastrar Produtos</Title>
       <SubTitle>Aqui você pode cadastrar novos produtos!</SubTitle>
-      <TextField
+      <SectionTitle>Dados do produto</SectionTitle>
+      <StyledTextField
         name="nome"
         label="Nome *"
         value={values.nome}
@@ -87,7 +97,7 @@ export default function Product() {
         type="text"
       />
 
-      <TextField
+      <StyledTextField
         name="descricao"
         label="Descrição *"
         value={values.descricao}
@@ -100,7 +110,7 @@ export default function Product() {
       />
 
       <InputContainer items={2}>
-        <TextField
+        <StyledTextField
           name="marca"
           label="Marca *"
           value={values.marca}
@@ -112,23 +122,21 @@ export default function Product() {
 
         <div style={{display: 'flex', gap: 8}}>
           <FormControl>
-            <InputLabel id="demo-simple-select-label">Unidade</InputLabel>
-            <Select
+            <StyledInputLabel id="demo-simple-select-label">Unidade</StyledInputLabel>
+            <StyledSelect
               name="unidade_tipo"
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Age"
+              label="Unidade"
               onChange={handleChange}
               style={{ width: '90px' }}
               defaultValue={1}
             >
-              <MenuItem selected value={1}>Qtd</MenuItem>
-              <MenuItem value={2}>Cm</MenuItem>
-              <MenuItem value={3}>Kg</MenuItem>
-            </Select>
+              <MenuItem selected value="qtd">Qtd</MenuItem>
+              <MenuItem value="cm">Cm</MenuItem>
+              <MenuItem value="kg">Kg</MenuItem>
+            </StyledSelect>
           </FormControl>
 
-          <TextField
+          <StyledTextField
             name="unidade_valor"
             label="Unidade de medida *"
             value={values.unidade_valor}

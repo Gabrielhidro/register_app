@@ -4,10 +4,11 @@ import { IoBagAdd } from 'react-icons/io5'
 import { useState } from 'react'
 import Switch from '@mui/material/Switch';
 import { Link } from 'react-router-dom';
+import { useDataContext } from "../../context/DataContext";
 
 export default function Sidebar() {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
+  const {handleChangeTheme, isDarkMode} = useDataContext()
 
   return (
     <SidebarContainer isOpen={isOpenSidebar}>
@@ -58,7 +59,7 @@ export default function Sidebar() {
         )}
 
         <Switch
-          onChange={() => setIsDarkMode(!isDarkMode)}
+          onChange={handleChangeTheme}
         />
       </SidebarFooter>
 
