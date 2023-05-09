@@ -14,7 +14,7 @@ export default function Sidebar() {
     <SidebarContainer isOpen={isOpenSidebar}>
       <SidebarHeader >
         <LogoContainer>
-          <img src="../../../public/logo-g.png" alt="Logo" />
+          <img src="/logo-g.png" alt="Logo" />
         </LogoContainer>
       </SidebarHeader>
 

@@ -28,7 +28,7 @@ const formInitialState = {
 }
 
 export default function Product() {
-  const {handleSetProductList} = useDataContext()
+  const {handleSetProductList, productList} = useDataContext()
   const [loading, setLoading] = useState(false)
 
   const formValidationSchema = yup.object().shape({
@@ -64,10 +64,16 @@ export default function Product() {
   const onSubmitForm = (formValues: productDataInterface) => {
     setLoading(true)
     setTimeout(() => {
+      const productExists = productList.some(prodsuct => prodsuct.nome.toUpperCase() === formValues.nome.toUpperCase())
+      if (productExists) {
+        toast.error("Já existe um produto com esse nome!")
+        setLoading(false)
+      } else {
       handleSetProductList(formValues)
       setLoading(false)
       handleSetFormInitialValues()
       toast.success("Produto cadastrado com sucesso!")
+        }
     }, 1000);
   }
 

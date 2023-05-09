@@ -32,7 +32,7 @@ const formInitialState = {
 }
 
 export default function Supplier() {
-  const {handleSetSupplierList, productList} = useDataContext()
+  const {handleSetSupplierList, productList, supplierList} = useDataContext()
   const [loading, setLoading] = useState(false)
   const [selectedProducts, setSelectedProducts] = useState<any>([]);
 
@@ -58,15 +58,22 @@ export default function Supplier() {
 
   const handleSetFormInitialValues = () => {
     formState.setValues(formInitialState)
+    setSelectedProducts([])
   }
 
   const onSubmitForm = (formValues: supplierDataInterface) => {
     setLoading(true)
     setTimeout(() => {
-      handleSetSupplierList(formValues)
-      setLoading(false)
-      handleSetFormInitialValues()
-      toast.success("Fornecedor cadastrado com sucesso!")
+      const cnpjExists = supplierList.some(supplier => supplier.cnpj === formValues.cnpj)
+      if (cnpjExists) {
+        toast.error("Esse CNPJ já está cadastrado!")
+        setLoading(false)
+      } else {
+        handleSetSupplierList(formValues)
+        setLoading(false)
+        handleSetFormInitialValues()
+        toast.success("Fornecedor cadastrado com sucesso!")
+      }
     }, 1000);
 
   }
