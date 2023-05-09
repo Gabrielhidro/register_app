@@ -15,6 +15,7 @@ export interface productDataInterface {
   image?: any
 }
 
+
 export interface supplierDataInterface {
   nome: string
   cnpj: string
@@ -25,7 +26,16 @@ export interface supplierDataInterface {
   produtos: any
 }
 
-export const DataContext = createContext({} as any);
+type DataContextType = {
+  productList: productDataInterface[];
+  supplierList: supplierDataInterface[];
+  isDarkMode: boolean;
+  handleSetProductList: (product: productDataInterface) => void;
+  handleSetSupplierList: (supplier: supplierDataInterface) => void;
+  handleChangeTheme: () => void;
+};
+
+export const DataContext = createContext<DataContextType>({} as DataContextType);
 
 export function DataContextProvider({ children }: DataContextProviderProps) {
   const [productList, setProductList] = useState<productDataInterface[]>([]);
@@ -95,21 +105,21 @@ export function DataContextProvider({ children }: DataContextProviderProps) {
           "image": "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         },
         {
-        "nome": "Garrafa térmica 1L",
-        "descricao": "Produzido em aço inoxidável de qualidade, que conserva as bebidas quentes por até 12h e frias por até 24h, a linha completa possui filtro em aço inox e outras quatro cores diferentes para você escolher a que mais combina com você: branco, preto, rosa e vermelho. Durável e resistente, possui sistema de rosca com vedação à prova de vazamento, ampola térmica com dupla camada em aço inox 304 e filtro também em aço inox para folhas de chá. Acompanha embalagem presenteável.",
-        "marca": "Squez",
-        "unidade_tipo": "qtd",
-        "unidade_valor": "33",
-        "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-      },
-      {
-        "nome": "Relógio digital",
-        "descricao": "Impermeável: À prova d'água (33 m). Quer lavar as mãos ou nadar? Sem problemas! Para todos os tipos de situação, de reuniões de negócios a atividades internas, ou mesmo uso diário. Observação: Não aperte os botões na água.",
-        "marca": "Tummy",
-        "unidade_tipo": "kg",
-        "unidade_valor": "0.5",
-        "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1099&q=80"
-      }]
+          "nome": "Garrafa térmica 1L",
+          "descricao": "Produzido em aço inoxidável de qualidade, que conserva as bebidas quentes por até 12h e frias por até 24h, a linha completa possui filtro em aço inox e outras quatro cores diferentes para você escolher a que mais combina com você: branco, preto, rosa e vermelho. Durável e resistente, possui sistema de rosca com vedação à prova de vazamento, ampola térmica com dupla camada em aço inox 304 e filtro também em aço inox para folhas de chá. Acompanha embalagem presenteável.",
+          "marca": "Squez",
+          "unidade_tipo": "qtd",
+          "unidade_valor": "33",
+          "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+        },
+        {
+          "nome": "Relógio digital",
+          "descricao": "Impermeável: À prova d'água (33 m). Quer lavar as mãos ou nadar? Sem problemas! Para todos os tipos de situação, de reuniões de negócios a atividades internas, ou mesmo uso diário. Observação: Não aperte os botões na água.",
+          "marca": "Tummy",
+          "unidade_tipo": "kg",
+          "unidade_valor": "0.5",
+          "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1099&q=80"
+        }]
     },
 
   ]

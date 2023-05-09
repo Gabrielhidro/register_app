@@ -5,8 +5,8 @@ import { ProductContent, ProductDetailsContainer, ProductInfo, SubTitle, Title }
 export function ProductDetails() {
   const { nome } = useParams<{ nome: string }>()
   const { productList } = useDataContext()
-  const product = productList.find((s: any) => s.nome === nome)
-  const imageUrl = product.arquivo ? URL.createObjectURL(product.arquivo) : undefined;
+  const product = productList.find((s) => s.nome === nome)
+  const imageUrl = product?.arquivo ? URL.createObjectURL(product.arquivo) : undefined;
 
   function getUnidadeText(unidade_tipo: string): string {
     switch (unidade_tipo) {
@@ -27,12 +27,12 @@ export function ProductDetails() {
       <SubTitle>Aqui você pode ver os detalhes do produto!</SubTitle>
 
       <ProductContent>
-        {imageUrl ? <img src={imageUrl} alt="Preview" /> : <img src={product.image} alt="Preview" />}
+        {imageUrl ? <img src={imageUrl} alt="Preview" /> : <img src={product?.image} alt="Preview" />}
 
         <ProductInfo>
           <h2>{product?.nome}</h2>
           <p><strong>Marca: </strong>{product?.marca}</p>
-          <p><strong>{getUnidadeText(product?.unidade_tipo)}: </strong>{product?.unidade_valor}</p>
+          <p><strong>{getUnidadeText(String(product?.unidade_tipo))}: </strong>{product?.unidade_valor}</p>
           <p><strong>Descrição: </strong>{product?.descricao}</p>
         </ProductInfo>
       </ProductContent>

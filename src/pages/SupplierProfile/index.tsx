@@ -1,11 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { useDataContext } from '../../context/DataContext';
-import { SupplierProfContainer, SubTitle, Title, SupplierContent, SupplierInfo, SectionTitle } from './styled';
+import { SupplierProfContainer, SubTitle, Title, SupplierContent, SupplierInfo, SectionTitle, ProductItemListContainer } from './styled';
+import { ProductItem } from '../../components/ProductItem';
 
 export function SupplierProfile() {
   const { nome } = useParams<{ nome: string }>()
   const { supplierList } = useDataContext()
-  const supplier = supplierList.find((s: any) => s.nome === nome)
+  const supplier = supplierList.find((s) => s.nome === nome)
+  
 
   return (
     <SupplierProfContainer>
@@ -25,13 +27,16 @@ export function SupplierProfile() {
           <p>Endereço: {supplier?.endereco}</p>
           
           <SectionTitle>Produtos</SectionTitle>
+
+          <ProductItemListContainer>
           {supplier?.produtos.length ? (
             supplier?.produtos.map((p: any) => (
-              <p>{p.nome}</p>
+              <ProductItem key={p.nome} product={p} />
             ))
           ) : (
             <p>Nenhum produto cadastrado</p>
           )}
+          </ProductItemListContainer>
         </SupplierInfo>
       </SupplierContent>
     </SupplierProfContainer>

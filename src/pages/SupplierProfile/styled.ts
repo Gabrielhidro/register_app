@@ -23,9 +23,9 @@ export const SubTitle = styled.span`
 `
 
 export const SectionTitle = styled.span`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
-  margin-top: 12px;
+  margin-top: 20px;
   margin-bottom: 4px;
   color: ${props => props.theme.primaryColor};
 `
@@ -45,4 +45,11 @@ export const SupplierInfo = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 8px;
+`
+
+export const ProductItemListContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  width: 100%;
 `

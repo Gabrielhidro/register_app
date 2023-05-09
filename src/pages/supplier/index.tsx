@@ -68,7 +68,6 @@ export default function Supplier() {
       handleSetFormInitialValues()
       toast.success("Fornecedor cadastrado com sucesso!")
     }, 1000);
-    console.log(formValues);
 
   }
 
@@ -125,9 +124,6 @@ export default function Supplier() {
     setSelectedProducts(newSelectedProducts)
     setFieldValue('produtos', newSelectedProducts)
   };
-
-  console.log(selectedProducts);
-  
 
   return (
     <SupplierContainer>
