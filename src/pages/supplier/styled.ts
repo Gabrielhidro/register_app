@@ -61,6 +61,13 @@ export const StyledTextField = styled(TextField)`
   }
 `;
 
+export const ProductListContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  width: 100%;
+`
+
 export const SaveButton = styled(Button)`
   margin-top: 20px !important;
   color: ${props => props.theme.onPrimaryColor} !important;

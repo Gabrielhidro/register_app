@@ -12,11 +12,12 @@ export const StyledSupplierRow = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   color: ${(props) => props.theme.onBackgroundColor};
   font-weight: 500;
-  border: 1px solid ${(props) => props.theme.onBackgroundColor};
   border-radius: 8px;
   padding: 12px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+
 
   &:hover {
     background-color: ${(props) => props.theme.onBackgroundColor};

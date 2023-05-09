@@ -1,13 +1,14 @@
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { cnpj } from 'cpf-cnpj-validator'
-import { SupplierContainer, Title, SubTitle, InputContainer, SaveButton, SectionTitle, StyledTextField } from "./styled";
+import { SupplierContainer, Title, SubTitle, InputContainer, SaveButton, SectionTitle, StyledTextField, ProductListContainer } from "./styled";
 import InputMask from 'react-input-mask'
 import { FocusEvent, useState } from "react";
 import { useDataContext } from '../../context/DataContext';
 import LoadingOverlay from '../../components/LoadingOverlay';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ProductToBeSelected } from '../../components/ProductToBeSelected';
 
 
 export interface supplierDataInterface {
@@ -31,8 +32,9 @@ const formInitialState = {
 }
 
 export default function Supplier() {
-  const {handleSetSupplierList} = useDataContext()
+  const {handleSetSupplierList, productList} = useDataContext()
   const [loading, setLoading] = useState(false)
+  const [selectedProducts, setSelectedProducts] = useState<any>([]);
 
   const formValidationSchema = yup.object().shape({
     nome: yup
@@ -66,6 +68,8 @@ export default function Supplier() {
       handleSetFormInitialValues()
       toast.success("Fornecedor cadastrado com sucesso!")
     }, 1000);
+    console.log(formValues);
+
   }
 
   const formState = useFormik({
@@ -104,8 +108,6 @@ export default function Supplier() {
       try {
         const addressData = await fetchAddress(Number(cep))
 
-        console.log(addressData);
-
         setFieldTouched('cep', true)
         setFieldValue('endereco', addressData.logradouro)
         setFieldValue('cidade', addressData.localidade)
@@ -116,9 +118,19 @@ export default function Supplier() {
     }
   }
 
+  const handleProductSelection = (product: any) => {
+    const newSelectedProducts = selectedProducts.includes(product)
+      ? selectedProducts.filter((p: any) => p !== product)
+      : [...selectedProducts, product]
+    setSelectedProducts(newSelectedProducts)
+    setFieldValue('produtos', newSelectedProducts)
+  };
+
+  console.log(selectedProducts);
+  
+
   return (
     <SupplierContainer>
-      <ToastContainer />
       <Title>Cadastrar fornecedor</Title>
       <SubTitle>Aqui você pode cadastrar novos fornecedores!</SubTitle>
       <SectionTitle>Dados pessoais</SectionTitle>
@@ -211,12 +223,29 @@ export default function Supplier() {
 
       <SectionTitle>Adicionar produtos</SectionTitle>
 
+      <ProductListContainer>
+        {productList.map((product: any) => (
+          <div key={product.id}>
+          <label>
+            <input
+              name='produtos'
+              type="checkbox"
+              checked={selectedProducts.includes(product)}
+              onChange={() => handleProductSelection(product)}
+            />
+            <ProductToBeSelected id={product.nome} product={product} />
+          </label>
+        </div>
+        ))}
+      </ProductListContainer>
+
 
       <SaveButton type="submit" onClick={prepareToSubmit}>
         Cadastrar
       </SaveButton>
 
       {loading && <LoadingOverlay />}
+      <ToastContainer />
     </SupplierContainer>
   )
 }

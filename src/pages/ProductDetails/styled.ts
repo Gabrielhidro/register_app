@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SupplierProfContainer = styled.form`
+export const ProductDetailsContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -30,19 +30,36 @@ export const SectionTitle = styled.span`
   color: ${props => props.theme.primaryColor};
 `
 
-export const SupplierContent = styled.div`
+export const ProductContent = styled.div`
   margin-top: 40px;
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  img {
+    width: 100%;
+  }
 `
 
-export const SupplierInfo = styled.div`
+export const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 8px;
+  gap: 4px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: ${props => props.theme.onBackgroundColor};
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: ${props => props.theme.grayTextColor};
+  }
+
 `

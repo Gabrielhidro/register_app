@@ -14,7 +14,7 @@ interface SupplierRowProps {
 export function SupplierRow({ supplier }: SupplierRowProps) {
 
   const linkTo: any = {
-    pathname: `/fornecedores/${supplier.nome}`,
+    pathname: `/supplier/${supplier.nome}`,
     state: { id: supplier.id }
   };
 

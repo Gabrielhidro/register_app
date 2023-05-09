@@ -6,8 +6,6 @@ import { HomeContainer, SectionTitle, SubTitle, Title } from "./styled";
 export default function Home(){
   const {productList, supplierList} = useDataContext()
 
-  console.log(productList, supplierList);
-  
   return (
     <HomeContainer>
       <Title>Home</Title>

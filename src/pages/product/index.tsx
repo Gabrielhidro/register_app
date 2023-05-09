@@ -99,7 +99,6 @@ export default function Product() {
 
   return (
     <ProductContainer>
-      <ToastContainer />
       <Title>Cadastrar Produtos</Title>
       <SubTitle>Aqui você pode cadastrar novos produtos!</SubTitle>
       <SectionTitle>Dados do produto</SectionTitle>
@@ -186,6 +185,7 @@ export default function Product() {
       </SaveButton>
 
       {loading && <LoadingOverlay />}
+      <ToastContainer />
     </ProductContainer>
   )
 }
