@@ -2,13 +2,19 @@ import { useParams } from 'react-router-dom';
 import { useDataContext } from '../../context/DataContext';
 import { SupplierProfContainer, SubTitle, Title, SupplierContent, SupplierInfo, SectionTitle, ProductItemListContainer, RemoveButton } from './styled';
 import { ProductItem } from '../../components/ProductItem';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useState } from 'react';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
 export function SupplierProfile() {
   const { nome } = useParams<{ nome: string }>()
   const { supplierList, setSupplierList } = useDataContext()
   const supplier = supplierList.find((s) => s.nome === nome)
+  const [loading, setLoading] = useState(false)
 
   const handleRemoveProduct = (product: any) => {
+    setLoading(true)
     if (supplier) {
       const updatedSupplier = {...supplier};
       const updatedProducts = updatedSupplier.produtos.filter((p: any) => p.nome !== product.nome);
@@ -21,7 +27,11 @@ export function SupplierProfile() {
         return s;
       })
 
-      setSupplierList(updatedSupplierList);
+      setTimeout(() => {
+        setSupplierList(updatedSupplierList);
+        setLoading(false)
+        toast.success("Produto removido com sucesso!")
+      }, 1000);
     }
   };
   
@@ -59,6 +69,8 @@ export function SupplierProfile() {
           </ProductItemListContainer>
         </SupplierInfo>
       </SupplierContent>
+      {loading && <LoadingOverlay />}
+      <ToastContainer />
     </SupplierProfContainer>
   );
 }
