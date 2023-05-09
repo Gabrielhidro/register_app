@@ -33,6 +33,7 @@ type DataContextType = {
   handleSetProductList: (product: productDataInterface) => void;
   handleSetSupplierList: (supplier: supplierDataInterface) => void;
   handleChangeTheme: () => void;
+  setSupplierList: (supplier: supplierDataInterface[]) => void;
 };
 
 export const DataContext = createContext<DataContextType>({} as DataContextType);
@@ -151,6 +152,9 @@ export function DataContextProvider({ children }: DataContextProviderProps) {
     }
   ]
 
+  console.log('supplierList', supplierList)
+  
+
   useEffect(() => {
     setProductList(mockProductList)
     setSupplierList(mockSupplierList)
@@ -175,7 +179,8 @@ export function DataContextProvider({ children }: DataContextProviderProps) {
       supplierList,
       handleSetSupplierList,
       handleChangeTheme,
-      isDarkMode
+      isDarkMode,
+      setSupplierList
     }}>
       {children}
     </DataContext.Provider>
@@ -189,7 +194,8 @@ export function useDataContext() {
     isDarkMode,
     handleChangeTheme,
     productList,
-    supplierList
+    supplierList,
+    setSupplierList
   } = useContext(DataContext);
 
   return {
@@ -198,6 +204,7 @@ export function useDataContext() {
     isDarkMode,
     handleChangeTheme,
     productList,
-    supplierList
+    supplierList,
+    setSupplierList
   };
 }

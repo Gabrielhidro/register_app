@@ -18,6 +18,12 @@ export const StyledSupplierRow = styled.div`
   transition: all 0.3s ease-in-out;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 
+  p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60%;
+  }
 
   &:hover {
     background-color: ${(props) => props.theme.onBackgroundColor};

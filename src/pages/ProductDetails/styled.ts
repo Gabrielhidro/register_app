@@ -41,6 +41,10 @@ export const ProductContent = styled.div`
   img {
     width: 100%;
   }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `
 
 export const ProductInfo = styled.div`

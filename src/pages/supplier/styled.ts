@@ -66,6 +66,14 @@ export const ProductListContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
   width: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 425px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `
 
 export const SaveButton = styled(Button)`
@@ -74,4 +82,4 @@ export const SaveButton = styled(Button)`
   background-color: ${props => props.theme.primaryColor} !important;
   width: 200px !important;
   align-self: center !important;
-  `
+`

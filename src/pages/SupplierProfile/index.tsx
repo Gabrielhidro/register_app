@@ -1,12 +1,29 @@
 import { useParams } from 'react-router-dom';
 import { useDataContext } from '../../context/DataContext';
-import { SupplierProfContainer, SubTitle, Title, SupplierContent, SupplierInfo, SectionTitle, ProductItemListContainer } from './styled';
+import { SupplierProfContainer, SubTitle, Title, SupplierContent, SupplierInfo, SectionTitle, ProductItemListContainer, RemoveButton } from './styled';
 import { ProductItem } from '../../components/ProductItem';
 
 export function SupplierProfile() {
   const { nome } = useParams<{ nome: string }>()
-  const { supplierList } = useDataContext()
+  const { supplierList, setSupplierList } = useDataContext()
   const supplier = supplierList.find((s) => s.nome === nome)
+
+  const handleRemoveProduct = (product: any) => {
+    if (supplier) {
+      const updatedSupplier = {...supplier};
+      const updatedProducts = updatedSupplier.produtos.filter((p: any) => p.nome !== product.nome);
+      updatedSupplier.produtos = updatedProducts;
+
+      const updatedSupplierList = supplierList.map((s) => {
+        if (s.nome === supplier.nome) {
+          return updatedSupplier;
+        }
+        return s;
+      })
+
+      setSupplierList(updatedSupplierList);
+    }
+  };
   
 
   return (
@@ -29,13 +46,16 @@ export function SupplierProfile() {
           <SectionTitle>Produtos</SectionTitle>
 
           <ProductItemListContainer>
-          {supplier?.produtos.length ? (
-            supplier?.produtos.map((p: any) => (
-              <ProductItem key={p.nome} product={p} />
-            ))
-          ) : (
-            <p>Nenhum produto cadastrado</p>
-          )}
+            {supplier?.produtos.length ? (
+              supplier?.produtos.map((p: any) => (
+                <div style={{display: 'flex', flexDirection: 'column'}}>
+                  <ProductItem key={p.nome} product={p} />
+                  <RemoveButton onClick={() => handleRemoveProduct(p)} >Remover</RemoveButton>
+                </div>
+              ))
+            ) : (
+              <p>Nenhum produto cadastrado</p>
+            )}
           </ProductItemListContainer>
         </SupplierInfo>
       </SupplierContent>
